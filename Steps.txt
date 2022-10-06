@@ -89,6 +89,8 @@
 
 13. php artisan migrate
 
+14. Proceed to Android Development
+
 
 
 
