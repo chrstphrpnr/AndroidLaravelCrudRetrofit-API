@@ -1,0 +1,99 @@
+##CRUD FOR ANDROID AND LARAVEL
+
+1. composer create-project laravel/laravel projectname
+
+2. Create New Model
+
+    php artisan make:model ModelName -m
+
+3. Create API Controller for the Model
+
+    php artisan make:controller StudentController --api --model=NameoftheModel
+
+4. In the Model create the fillable
+
+    protected $fillable = [
+        "First Name",
+        "last Name",
+        "Age"
+    ];
+
+5. In the Database Migration
+
+     Schema::create('students', function (Blueprint $table) {
+            $table->id();
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->integer('age');
+            $table->timestamps();
+        });
+
+
+6. Declare Model in the Controller
+
+    use App\Models\Student;
+
+7. Index Function in the Controller
+
+    public function index()
+    {
+        $student = Student::latest()->paginate(5);
+        return response()->json($student, 200);
+    }
+
+8. Store Function in the Controller
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'first_name' =>'required',
+            'last_name' =>'required',
+            'age' =>'required',
+        ]);
+
+        $student = Student::create($request->all());
+        return response()->json($student, 200);
+    }
+
+9. Update Function in the Controller
+
+    public function update(Request $request, Student $student)
+    {
+        $request->validate([
+            'first_name' =>'required',
+            'last_name' =>'required',
+            'age' =>'required',
+        ]);
+
+        $student->update($request->all());
+        return response()->json($student, 200);
+    }
+
+10. Delete Function in the Controller
+
+    public function destroy(Student $student)
+    {
+        $student->delete();
+        return response()->json('Record Deleted Successfully');
+    }
+
+11. Create the API for StudentController in routes\api.php
+
+    use app\Http\Controllers\StudentController;
+
+
+    Route::resource('students', StudentController::class);
+
+
+12. Put the database name in .env file and create Database in xampp
+
+13. php artisan migrate
+
+
+
+
+
+
+
+
+
